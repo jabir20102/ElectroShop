@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        
 
     ],
 

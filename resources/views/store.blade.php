@@ -235,7 +235,7 @@
 								</div>
 								<div class="product-body">
 									<p class="product-category">{{$top_sales[$i]->category}}</p>
-									<h3 class="product-name"><a href="{{route('view', $top_sales[$i]->id)}}">{{$top_sales[$i]->title}} </a></h3>
+									<h3 class="product-name"><a href="{{route('view', ['slug'=>$top_sales[$i]->slug,'id'=>$top_sales[$i]->id])}}">{{$top_sales[$i]->title}} </a></h3>
                                         <h4 class="product-price">${{$top_sales[$i]->price*(1-$top_sales[$i]->discount/100)}} <del class="product-old-price">${{$top_sales[$i]->price}}</del></h4>
 								</div>
 							</div>
@@ -270,7 +270,9 @@
 							</div>
 							<ul class="store-grid">
 								<li class="active"><i class="fa fa-th"></i></li>
-								<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+								<li>
+									<i class="fa fa-th-list"></i>
+								</li>
 							</ul>
 						</div>
 						<!-- /store top filter -->
@@ -305,7 +307,7 @@
 									</div>
 									<div class="product-body">
 										<p class="product-category">{{$product->category}}</p>
-										<h3 class="product-name"><a href="{{route('view', $product['id'])}}">{{$product->title}}</a></h3>
+										<h3 class="product-name"><a href="{{route('view', ['slug'=>$product['slug'],'id'=>$product['id']])}}">{{$product->title}}</a></h3>
 							<h4 class="product-price">${{$price}}
 										 <del class="product-old-price">${{$product->price}}</del></h4>	
 										

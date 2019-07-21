@@ -159,6 +159,7 @@
                                                             <input name="ratting"  id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
                                                         </div>
                                                     </div>
+                                                    <input type="text" name="product_slug" value="{{$product->slug}}" hidden>
                                                     <input type="text" name="product_id" value="{{$product->id}}" hidden>
                                                     <button class="primary-btn">Submit</button>
                                                 </form>

@@ -11,7 +11,7 @@ use DB;
 use Session;
 use File;
 use Auth;
-use Intervention\Image\ImageManagerStatic as Image;
+use Image;
 
 class HomeController extends Controller
 {
@@ -63,7 +63,8 @@ class HomeController extends Controller
         $product=Product::find($product_id);
         $product->user=Auth::user()->id;
 
-        $product->title=$request->input('title');
+        $product->title=$request->input('title');        
+        $product->slug=str_slug($request->input('title').'-'.$product_id);
         $product->description=$request->input('description');
         $product->details=$request->input('details');
         $product->price=$request->input('price');
@@ -84,18 +85,42 @@ class HomeController extends Controller
     {
         $product_id=Session::get('product_id');
      $this->validate($request, [
-      'file1'  => 'required|image|mimes:jpg,png,gif|max:2048'
+      'file1'  => 'required|image|max:2048'
      ]);
 
-     $image = $request->file('file1');
-    $new_name    = $image->getClientOriginalName();
+    //  $image = $request->file('file1');
+    // $new_name    = $image->getClientOriginalName();
 
-    $image_resize = Image::make($image->getRealPath());              
-    $image_resize->resize(600,600);
+    // $image_resize = Image::make($image->getRealPath());              
+    // $image_resize->resize(600,600);
 
-     // $new_name = date("Ymdhis") . '.' . $image->getClientOriginalExtension();
+    //  // $new_name = date("Ymdhis") . '.' . $image->getClientOriginalExtension();
 
-     $image->move(public_path('images'), $new_name);
+    //  $image->move(public_path('images'), $new_name);
+
+
+
+             $image = $request->file('file1');
+
+        $new_name = time().'.'.$image->getClientOriginalExtension();   
+
+        $destinationPath = public_path('images');
+
+        $img = Image::make($image->getRealPath());
+
+        $img->resize(300, 300, function ($constraint) {
+
+        $constraint->aspectRatio();
+
+    })->save($destinationPath.'/'.$new_name);
+
+
+        $destinationPath = public_path('/images');
+
+        $image->move($destinationPath, $new_name);
+
+
+
 
      if($product_id!=''){
        
@@ -119,6 +144,7 @@ class HomeController extends Controller
                     'brand' => 'brand',
                     'visits'=>  0,
                     'colors'    =>  'khan',
+                    'slug' => 'slug',
                 ]);
                 $product->save();
                 $product_id= DB::getPdo()->lastInsertId();

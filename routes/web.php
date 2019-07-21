@@ -6,7 +6,7 @@ Auth::routes();
 // welcome route
 Route::get('/', 'MyController@index')->name('welcome');
 //  view individual product
-Route::get('/view/{id}', 'MyController@view')->name('view');
+Route::get('/view/{slug}/{id}', 'MyController@view')->name('view');
 Route::get('/remove/{id}','MyController@removeProduct')->name('removeProduct');
 Route::post('/view/review','MyController@review')->name('store.review');
 Route::post('/shopping_cart/add','MyController@addToCart')->name('shopping_cart.add');
@@ -27,8 +27,8 @@ Route::resource('/home', 'HomeController');
 
 //  routes for wishlist
 Route::get('/show/viewWishlist','MyController@viewWishlist')->name('show.viewWishlist');
-Route::get('/view/addToWishlist/{id}','MyController@addToWishlist')->name('view.addToWishlist');
-Route::get('/view/removeFromWishlist/{id}','MyController@removeFromWishlist')->name('view.removeFromWishlist');
+Route::get('/view/addToWishlist/{slug}/{id}','MyController@addToWishlist')->name('view.addToWishlist');
+Route::get('/view/removeFromWishlist/{slug}/{id}','MyController@removeFromWishlist')->name('view.removeFromWishlist');
 
 //  search 
 Route::post('/store/search', 'MyController@search')->name('store.search');

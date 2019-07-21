@@ -33,7 +33,8 @@ class MyController extends Controller
          return view('welcome', compact('products','top_sales'));
 	}
 
-	public function view($id){
+	public function view($slug,$id){
+   
 
 		  $product=Product::find($id);
       $product->visits++;
@@ -106,7 +107,7 @@ $offer="false";
         'product_id'=>$request->input('product_id'),
     ]);
              $ratting->save();
-             return redirect()->route('view', $request->input('product_id')); 
+             return redirect()->route('view',['slug'=>$request->input('product_slug'),'id'=> $request->input('product_id')]); 
 
 
     }
@@ -114,7 +115,7 @@ $offer="false";
     public function addToCart(Request $request){
         
         Cart::add($request->id, $request->name, $request->qnty, $request->price, ['color' => $request->color,'size' => $request->size,'url' => $request->url]);
-        // Cart::remove($request->id);
+        
         echo $this->viewShoppingCart();
        
    }
@@ -124,7 +125,7 @@ $offer="false";
 
    public  function remove($row_id)
  {
-    Cart::remove($row_id);   // there is masla
+    Cart::remove($row_id);   
     echo $this->cart();
  }
    public function viewShoppingCart(){
@@ -144,7 +145,7 @@ $offer="false";
                                                     <img src="'.asset('/images/'.$url).'" alt="">
                                                 </div>
                                                 <div class="product-body">
-                                                    <h3 class="product-name"><a href="'.route("view", $row->id).'">'.$row->name.'</a></h3>
+                                                <h3 class="product-name"><a href="'.route("view", ['slug'=>str_slug($row->name),'id'=>$row->id]).'">'.$row->name.'</a></h3>
                                                     <h5 class="product-price"><span class="qty">Qty '.$row->qty.'</span>$'.$row->price.'</h5>
                                                     <h5><span>size:'.($row->options->has("size") ? $row->options->size : "-").'</span>  color:'.($row->options->has("color") ? $row->options->color : "-").'</h5>
                                                 </div>
@@ -198,7 +199,8 @@ $offer="false";
 
    }
    //    Wishlist
-   public function addToWishlist($id){
+   public function addToWishlist($slug,$id){
+
          if (Auth::check()){
           $wishlist=new Wishlist([
             'product_id'=>$id,
@@ -206,16 +208,16 @@ $offer="false";
           ]);
           $wishlist->save();
          }
-         return redirect()->route('view', $id); 
+         return redirect()->route('view',['slug'=> $slug,'id'=>$id]); 
   }
-  public function removeFromWishlist($id){
+  public function removeFromWishlist($slug,$id){
          if (Auth::check()){
           $wishlists=Wishlist::where(['product_id'=>$id,'user'=>Auth::user()->id])->get();
           foreach ($wishlists as $wishlist) {
             $wishlist->delete();
           }
          }
-         return redirect()->route('view', $id); 
+         return redirect()->route('view',['slug'=> $slug,'id'=>$id]); 
   }
   public function viewWishlist(){
     if (Auth::check()){
@@ -237,7 +239,7 @@ $offer="false";
               <img src="'.asset('/images/'.$url).'" alt="">
           </div>
           <div class="product-body">
-              <h3 class="product-name"><a href="'.route("view", $row->id).'">'.$row->title.'</a></h3>
+              <h3 class="product-name"><a href="'.route("view", ['slug'=>$row->slug,'id'=>$row->id]).'">'.$row->title.'</a></h3>
               <h4 class="product-price">$'.$row->price*(1-$row->discount/100).' <del class="product-old-price">$'.$row->price.'</del></h4>
               
               

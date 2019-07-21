@@ -21,7 +21,7 @@
    @foreach($products as $product)
    <tr>
      <td>
-      <a href="{{route('view', $product['id'])}}" >{{$product['title']}}</a>
+      <a href="{{route('view', ['slug'=>$product['slug'],'id'=>$product['id']])}}" >{{$product['title']}}</a>
        </td>
     <td>{{$product['category']}}</td>
     <td>

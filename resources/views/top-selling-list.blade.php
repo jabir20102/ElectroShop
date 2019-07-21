@@ -24,7 +24,7 @@
                                     </div>
                                     <div class="product-body">
                                         <p class="product-category">{{$top_sales[$i]->category}}</p>
-                                        <h3 class="product-name"><a href="{{route('view', $top_sales[$i]->id)}}">{{$top_sales[$i]->title}} </a></h3>
+                                        <h3 class="product-name"><a href="{{route('view',['slug'=>$top_sales[$i]->slug,'id'=>$top_sales[$i]->id] )}}">{{$top_sales[$i]->title}} </a></h3>
                                         <h4 class="product-price">${{$top_sales[$i]->price*(1-$top_sales[$i]->discount/100)}} <del class="product-old-price">${{$top_sales[$i]->price}}</del></h4>
                                     </div>
                                 </div>

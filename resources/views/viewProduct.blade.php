@@ -164,10 +164,10 @@ $price=$product->price*(1-$product->discount/100);
 
                             <ul class="product-btns">
                                 @if ($wishlist=="true")
-                                <li><a href="{{action('MyController@removeFromWishlist',$product['id'])}}"><i class="fa fa-heart"></i> added to wishlist</a></li>
+                                <li><a href="{{action('MyController@removeFromWishlist',['slug'=>$product['slug'],'id'=>$product['id']])}}"><i class="fa fa-heart"></i> added to wishlist</a></li>
 
                                 @else
-                                <li><a href="{{action('MyController@addToWishlist', $product['id'])}}"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                                <li><a href="{{action('MyController@addToWishlist', ['slug'=>$product['slug'],'id'=>$product['id']])}}"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
                                 <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
                                 @endif
                             </ul>
